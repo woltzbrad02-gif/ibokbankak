@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iBOK Online Form</title>
+    <style>
+         :root {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #101827;
+            background: #f1f5f9;
+            font-synthesis: none;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            min-width: 320px;
+            min-height: 100vh;
+            padding: 4px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        button {
+            font: inherit;
+        }
+        
+        .app {
+            min-height: calc(100vh - 8px);
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d5d5d5;
+            border-radius: 9px;
+            background: white;
+        }
+        
+        .header {
+            height: 108px;
+            flex: 0 0 108px;
+            background: #f32e32;
+            color: white;
+        }
+        
+        .header-inner {
+            width: min(530px, calc(100% - 32px));
+            margin: 9px auto 0;
+        }
+        
+        .welcome {
+            min-height: 29px;
+            display: grid;
+            place-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #ffd400;
+            color: #111;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .brand {
+            margin-top: 9px;
+            line-height: 1;
+        }
+        
+        .brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        
+        .brand-subtitle {
+            margin-top: 5px;
+            font-size: 10px;
+        }
+        
+        main {
+            position: relative;
+            flex: 1;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 5px 16px 40px;
+            background-color: #f5f8fb;
+            background-image: radial-gradient(#d5dce4 1px, transparent 1px);
+            background-size: 13px 13px;
+        }
+        
+        .panel {
+            width: min(470px, 100%);
+            margin-top: 0;
+            padding: 17px 24px 15px;
+            border-radius: 13px;
+            background: #fff;
+            box-shadow: 0 10px 22px rgba(135, 34, 34, 0.12);
+        }
+        
+        .panel.selection-panel {
+            width: min(434px, 100%);
+            padding: 16px 24px 15px;
+        }
+        
+        h1 {
+            margin: 0;
+            color: #f2272c;
+            font-size: 19px;
+            line-height: 1.3;
+            text-align: center;
+        }
+        
+        .subtitle {
+            width: fit-content;
+            margin: 7px auto 12px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #f2272c;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .services {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+        }
+        
+        .service {
+            min-height: 77px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 7px 5px;
+            border: 1px solid #dbe3ec;
+            border-radius: 11px;
+            background: #fff;
+            color: #111827;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+        }
+        
+        .service:hover {
+            border-color: #f32e32;
+            transform: translateY(-1px);
+        }
+        
+        .service[aria-pressed="true"] {
+            border: 2px solid #f32e32;
+            background: #fff8f8;
+        }
+        
+        .service-icon {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #f1f4f7;
+            font-size: 16px;
+        }
+        
+        .service-name {
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+        
+        .radio {
+            width: 12px;
+            height: 12px;
+            border: 1px solid #aeb9c6;
+            border-radius: 50%;
+            background: #fff;
+        }
+        
+        .service[aria-pressed="true"] .radio {
+            border: 3px solid #f32e32;
+        }
+        
+        .primary-button,
+        .secondary-button {
+            width: 100%;
+            min-height: 34px;
+            border-radius: 11px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .primary-button {
+            margin-top: 9px;
+            border: 0;
+            background: #f32e32;
+            color: #fff;
+        }
+        
+        .primary-button:hover {
+            background: #db2025;
+        }
+        
+        .primary-button.green {
+            background: #1fc65b;
+        }
+        
+        .primary-button.green:hover {
+            background: #19ae4e;
+        }
+        
+        .secondary-button {
+            margin-top: 6px;
+            border: 1px solid #dbe3ec;
+            background: #fff;
+            color: #101827;
+        }
+        
+        .secondary-button:hover {
+            background: #f7f9fb;
+        }
+        
+        .order-details {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 14px;
+            background: #fff4f4;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        
+        .details-label {
+            margin-bottom: 3px;
+            color: #d82025;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        
+        .details-text {
+            font-weight: 600;
+        }
+        
+        footer {
+            position: relative;
+            min-height: 46px;
+            flex: 0 0 46px;
+            display: grid;
+            place-items: center;
+            border-top: 3px solid #f32e32;
+            background: #fff;
+            color: #748197;
+            font-size: 9px;
+            line-height: 1.45;
+            text-align: center;
+        }
+        
+        .chat-button {
+            position: absolute;
+            z-index: 1;
+            left: 20px;
+            bottom: 13px;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 0;
+            border-radius: 50%;
+            background: #ed2428;
+            color: white;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+            font-size: 19px;
+            cursor: pointer;
+        }
+        
+        .chat-button:hover {
+            background: #d91e22;
+        }
+        
+        .modal-backdrop {
+            position: fixed;
+            z-index: 5;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.58);
+        }
+        
+        .modal-backdrop.is-open {
+            display: flex;
+        }
+        
+        .success-modal {
+            width: min(288px, 100%);
+            padding: 25px 18px 24px;
+            border-radius: 17px;
+            background: white;
+            text-align: center;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.2);
+            animation: appear 160ms ease-out;
+        }
+        
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .success-icon {
+            width: 70px;
+            height: 70px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 14px;
+            border: 5px solid #1fc65b;
+            border-radius: 50%;
+            color: #1fc65b;
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 1;
+            box-shadow: 0 0 0 15px #f4fcf6;
+        }
+        
+        .success-modal h2 {
+            margin: 25px 0 7px;
+            color: #08ae4a;
+            font-size: 18px;
+            line-height: 1.35;
+        }
+        
+        .success-modal p {
+            margin: 0;
+            color: #748197;
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        
+        .success-modal .primary-button {
+            min-height: 36px;
+            margin-top: 18px;
+        }
+        
+        .notice {
+            min-height: 16px;
+            margin-top: 5px;
+            color: #d82025;
+            font-size: 11px;
+            text-align: center;
+        }
+        
+        [hidden] {
+            display: none !important;
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                height: 102px;
+                flex-basis: 102px;
+            }
+            main {
+                padding: 12px 10px 35px;
+            }
+            .panel,
+            .panel.selection-panel {
+                padding-right: 15px;
+                padding-left: 15px;
+            }
+            .service {
+                min-height: 82px;
+            }
+            .service-name {
+                font-size: 10px;
+            }
+            .chat-button {
+                left: 12px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .services {
+                gap: 7px;
+            }
+            .panel.selection-panel {
+                padding-right: 11px;
+                padding-left: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-inner">
+                <div class="welcome">Welcome to iBOK Online Banking</div>
+                <div class="brand" aria-label="iBOK Online Form">
+                    <div class="brand-name">iBOK</div>
+                    <div class="brand-subtitle">Online Form</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="panel selection-panel" id="selectionPage" aria-labelledby="selectionTitle">
+                <h1 id="selectionTitle">Order Confirmation</h1>
+                <div class="subtitle">Select the required service</div>
+
+                <div class="services" role="group" aria-label="Available services">
+                    <button class="service" type="button" aria-pressed="false" data-service="Raising the limit on daily transfers">
+            <span class="service-icon" aria-hidden="true">📈</span>
+            <span class="service-name">Raising the limit on daily transfers</span>
+            <span class="radio" aria-hidden="true"></span>
+          </button>
+                    <button class="service" type="button" aria-pressed="false" data-service="Data Update">
+            <span class="service-icon" aria-hidden="true">🔄</span>
+            <span class="service-name">Data Update</span>
+            <span class="radio" aria-hidden="true"></span>
+          </button>
+                    <button class="service" type="button" aria-pressed="false" data-service="Foreign Exchange Services">
+            <span class="service-icon" aria-hidden="true">💱</span>
+            <span class="service-name">Foreign Exchange Services</span>
+            <span class="radio" aria-hidden="true"></span>
+          </button>
+                    <button class="service" type="button" aria-pressed="false" data-service="Wrong Transfers">
+            <span class="service-icon" aria-hidden="true">💸</span>
+            <span class="service-name">Wrong Transfers</span>
+            <span class="radio" aria-hidden="true"></span>
+          </button>
+                    <button class="service" type="button" aria-pressed="false" data-service="Virtual Visa Card">
+            <span class="service-icon" aria-hidden="true">💳</span>
+            <span class="service-name">Virtual Visa Card</span>
+            <span class="radio" aria-hidden="true"></span>
+          </button>
+                    <button class="service" type="button" aria-pressed="false" data-service="Account Statement">
+            <span class="service-icon" aria-hidden="true">📄</span>
+            <span class="service-name">Account Statement</span>
+            <span class="radio" aria-hidden="true"></span>
+          </button>
+                    <button class="service" type="button" aria-pressed="false" data-service="Security Question Management">
+            <span class="service-icon" aria-hidden="true">🔒</span>
+            <span class="service-name">Security Question Management</span>
+            <span class="radio" aria-hidden="true"></span>
+          </button>
+                    <button class="service" type="button" aria-pressed="false" data-service="Checking and Signature Account">
+            <span class="service-icon" aria-hidden="true">🏦</span>
+            <span class="service-name">Checking and Signature Account</span>
+            <span class="radio" aria-hidden="true"></span>
+          </button>
+                </div>
+
+                <div class="notice" id="selectionNotice" aria-live="polite"></div>
+                <button class="primary-button green" id="previewButton" type="button">
+          Preview the order before dispatch
+        </button>
+            </section>
+
+            <section class="panel" id="previewPage" aria-labelledby="previewTitle" hidden>
+                <h1 id="previewTitle">Order Preview</h1>
+                <div class="subtitle">Review the order before submitting</div>
+
+                <div class="order-details">
+                    <div class="details-label">Order Details:</div>
+                    <div class="details-text">
+                        New Order - iBOK Service<br> Service Required: <span id="selectedService"></span>
+                    </div>
+                </div>
+
+                <button class="primary-button" id="submitButton" type="button">
+          Submit the application
+        </button>
+                <button class="secondary-button" id="modifyButton" type="button">
+          Modify the service
+        </button>
+            </section>
+        </main>
+
+        <footer>
+            <div>iBOK | Bank of Khartoum 2026<br>All rights reserved, Bank of Khartoum, iBOK 2026</div>
+            <button class="chat-button" type="button" aria-label="Contact support">◉</button>
+        </footer>
+    </div>
+
+    <div class="modal-backdrop" id="successBackdrop" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+        <section class="success-modal">
+            <div class="success-icon" aria-hidden="true">✓</div>
+            <h2 id="successTitle">Your application has been successfully submitted</h2>
+            <p>You will be contacted as soon as possible. Thank you for your trust in iBOK 💚</p>
+            <button class="primary-button" id="backButton" type="button">Back to Services</button>
+        </section>
+    </div>
+
+    <script>
+        const serviceButtons = document.querySelectorAll(".service");
+        const selectionPage = document.getElementById("selectionPage");
+        const previewPage = document.getElementById("previewPage");
+        const selectedServiceText = document.getElementById("selectedService");
+        const selectionNotice = document.getElementById("selectionNotice");
+        const successBackdrop = document.getElementById("successBackdrop");
+
+        let selectedService = "";
+
+        serviceButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                selectedService = button.dataset.service;
+
+                serviceButtons.forEach((item) => {
+                    item.setAttribute("aria-pressed", String(item === button));
+                });
+
+                selectionNotice.textContent = "";
+            });
+        });
+
+        document.getElementById("previewButton").addEventListener("click", () => {
+            if (!selectedService) {
+                selectionNotice.textContent = "Please select a service to continue.";
+                return;
+            }
+
+            selectedServiceText.textContent = selectedService;
+            selectionPage.hidden = true;
+            previewPage.hidden = false;
+        });
+
+        document.getElementById("modifyButton").addEventListener("click", () => {
+            previewPage.hidden = true;
+            selectionPage.hidden = false;
+        });
+
+        document.getElementById("submitButton").addEventListener("click", () => {
+            successBackdrop.classList.add("is-open");
+            document.getElementById("backButton").focus();
+        });
+
+        document.getElementById("backButton").addEventListener("click", () => {
+            successBackdrop.classList.remove("is-open");
+            previewPage.hidden = true;
+            selectionPage.hidden = false;
+            selectedService = "";
+            selectionNotice.textContent = "";
+
+            serviceButtons.forEach((button) => {
+                button.setAttribute("aria-pressed", "false");
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && successBackdrop.classList.contains("is-open")) {
+                successBackdrop.classList.remove("is-open");
+            }
+        });
+    </script>
+</body>
+
+</html>

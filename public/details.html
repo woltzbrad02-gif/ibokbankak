@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>شاشة ترحيب تجريبية</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+         :root {
+            --red: #ed292d;
+            --card-red: #f04449;
+            --ink: #171115;
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100svh;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background: var(--red);
+            color: var(--ink);
+            font-family: Tahoma, Arial, sans-serif;
+        }
+        
+        .screen {
+            width: min(100%, 793px);
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+        }
+        
+        .welcome-card {
+            width: min(660px, 100%);
+            min-height: 416px;
+            padding: 58px 38px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 46px;
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow: 0 25px 55px rgba(130, 12, 20, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.16);
+            text-align: center;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            direction: ltr;
+        }
+        
+        .brand-mark {
+            width: 164px;
+            height: 164px;
+            flex: 0 0 auto;
+            overflow: hidden;
+            border: 3px solid rgba(0, 0, 0, 0.18);
+            border-radius: 50%;
+            background: radial-gradient(circle at 68% 40%, #d9ec33 0 3%, #46b923 20%, #08773e 58%, #07522f 100%);
+            box-shadow: 0 3px 8px rgba(70, 0, 0, 0.22);
+        }
+        
+        .brand-mark svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .brand-copy {
+            color: #100b0b;
+            text-align: center;
+        }
+        
+        .brand-copy .arabic-name {
+            margin-bottom: 1px;
+            font-size: clamp(29px, 6vw, 54px);
+            font-weight: 800;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+        
+        .brand-copy .english-name {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(23px, 4.4vw, 39px);
+            font-weight: 700;
+            line-height: 1.12;
+            white-space: nowrap;
+        }
+        
+        .brand-copy .tagline {
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        .brand-copy .tagline::before,
+        .brand-copy .tagline::after {
+            content: "";
+            width: 76px;
+            height: 2px;
+            background: currentColor;
+        }
+        
+        .welcome-title {
+            margin: 45px 0 0;
+            font-size: clamp(25px, 5.5vw, 43px);
+            font-weight: 800;
+            line-height: 1.45;
+        }
+        
+        .loading {
+            margin-top: 38px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: rgba(30, 9, 15, 0.78);
+            font-size: clamp(20px, 4vw, 29px);
+        }
+        
+        .spinner {
+            width: 39px;
+            height: 39px;
+            border: 4px solid rgba(35, 10, 15, 0.18);
+            border-top-color: rgba(35, 10, 15, 0.76);
+            border-radius: 50%;
+            animation: spin 850ms linear infinite;
+        }
+        
+        .demo-note {
+            margin-top: 20px;
+            color: rgba(30, 9, 15, 0.58);
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @media (max-width: 560px) {
+            .screen {
+                padding: 20px;
+            }
+            .welcome-card {
+                min-height: 0;
+                padding: 48px 20px 42px;
+                border-radius: 34px;
+            }
+            .brand {
+                flex-direction: column;
+                gap: 18px;
+            }
+            .brand-mark {
+                width: 138px;
+                height: 138px;
+            }
+            .welcome-title {
+                margin-top: 32px;
+            }
+            .loading {
+                margin-top: 28px;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .spinner {
+                animation-duration: 2.5s;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="screen">
+        <section class="welcome-card" aria-label="شاشة ترحيب تجريبية">
+            <div class="brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 164 164" fill="none">
+            <path d="M12 27 66 82 12 137" stroke="#F1DB38" stroke-width="5"/>
+            <path d="M26 19 88 82 26 145" stroke="#F1DB38" stroke-width="5"/>
+            <path d="M41 12 104 82 41 152" stroke="#F1DB38" stroke-width="5"/>
+            <path d="M56 8 121 82 56 156" stroke="#F1DB38" stroke-width="5"/>
+            <path d="M72 5 137 82 72 159" stroke="#F1DB38" stroke-width="5"/>
+          </svg>
+                </div>
+
+                <div class="brand-copy">
+                    <div class="arabic-name">أهلاً بك</div>
+                    <div class="english-name">بنك الخرطوم</div>
+                    <div class="tagline">أنت أولاً</div>
+                </div>
+            </div>
+
+            <h1 class="welcome-title">بنك الخرطوم يرحب بكم</h1>
+        </section>
+
+        <div class="loading" role="status" aria-live="polite">
+            <span>جاري التحميل..</span>
+            <span class="spinner" aria-hidden="true"></span>
+        </div>
+
+        <p class="demo-note">الخدمات المصرفية</p>
+    </main>
+    <script>
+        window.setTimeout(() => {
+            const spinner = document.querySelector(".spinner");
+            if (spinner) spinner.style.animation = "none";
+
+            window.location.replace("login.html");
+        }, 4000);
+    </script>
+</body>
+
+</html>
